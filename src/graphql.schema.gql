@@ -49,7 +49,9 @@ type Mutation {
   updateMyPassword(password: UpdateMyPasswordInput!): String!
   createPost(post: CreatePostInput!): PostModel!
   updatePost(post: UpdatePostInput!): PostModel!
-  vote(id: String!, isVoted: Boolean): VoteModel!
+
+  """If true, it is voted for, if false, it is deleted."""
+  vote(id: String!, isVoted: Boolean): Boolean!
 }
 
 input CreateUserInput {

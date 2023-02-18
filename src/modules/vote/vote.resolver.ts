@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from "@nestjs/graphql";
+import { Args, createUnionType, Mutation, Resolver } from "@nestjs/graphql";
 import { Throttle } from "@nestjs/throttler";
 import { ParseUUIDPipe, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@core/guard/auth.guard";
@@ -15,14 +15,14 @@ export class VoteResolver {
   }
 
 
-  @Mutation(() => VoteModel)
+  @Mutation(() => Boolean, {description: "If true, it is voted for, if false, it is deleted."})
   @UseGuards(AuthGuard, GqlThrottlerGuard)
   @Throttle(6, 60)
   async vote(
     @User() user,
     @Args("id", ParseUUIDPipe) id: string,
     @Args("isVoted", { type: () => Boolean, nullable: true }) isVoted?: boolean
-  ): Promise<VoteModel> {
+  ): Promise<boolean> {
     return this.voteService.vote(id, isVoted, user);
   }
 }

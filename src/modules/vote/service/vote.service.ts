@@ -20,22 +20,20 @@ export class VoteService {
     });
   }
 
-  async vote(id, isVoted, user): Promise<any> {
+  async vote(id, isVoted, user): Promise<boolean> {
     const model = await this.postService.getPostById(id);
     if (!model) {
       throw new NotFoundException("Post not found");
     }
 
     const exists = await this.voteRepository.findOne({
-      where: {
-        post: id,
-        user: user.id
-      }
+      where: { post: id, user: user.id }
     });
 
     if (exists) {
-      exists.isVoted = !exists.isVoted;
-      return await exists.save();
+      await this.voteRepository.delete({ post: id, user: user.id });
+
+      return false;
     }
 
     const vote = this.voteRepository.create({
@@ -44,6 +42,8 @@ export class VoteService {
       user: user.id
     });
 
-    return await vote.save();
+    await vote.save();
+
+    return true;
   }
 }

@@ -3,7 +3,7 @@ import * as process from "process";
 
 if (process.env.NODE_ENV !== "production") {
   dotenv.config({
-    path: ".env.dev"
+    path: ".env.local"
   });
 }
 
