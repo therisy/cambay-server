@@ -9,13 +9,15 @@ import { AppQueueModule } from "@diverse/queue/queue.module";
 import { UserModel } from "@modules/user/model/user.model";
 import { VoteService } from "@modules/vote/service/vote.service";
 import { VoteModel } from "@modules/vote/model/vote.model";
+import { CommentService } from "@modules/comment/service/comment.service";
+import { CommentModel } from "@modules/comment/model/comment.model";
 
 @Module({
   imports: [
     AppJwtModule,
     AppQueueModule,
-    TypeOrmModule.forFeature([UserModel, PostModel, VoteModel]),
+    TypeOrmModule.forFeature([UserModel, PostModel, VoteModel, CommentModel]),
   ],
-  providers: [PostService, PostResolver, UserService, VoteService]
+  providers: [PostService, PostResolver, UserService, VoteService, CommentService]
 })
 export class PostModule {}

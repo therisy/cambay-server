@@ -25,6 +25,16 @@ type VoteModel {
   isVoted: Boolean!
 }
 
+type CommentModel {
+  id: ID!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+  user: ID!
+  content: String!
+  post: ID!
+  parent: String!
+}
+
 type PostModel {
   id: ID!
   createdAt: Timestamp!
@@ -33,7 +43,8 @@ type PostModel {
   description: String!
   categories: [Float!]!
   ready: Boolean!
-  votes: [VoteModel!]!
+  votes(page: Float!): [VoteModel!]!
+  comments(page: Float!): [CommentModel!]!
 }
 
 type Query {
@@ -52,6 +63,9 @@ type Mutation {
 
   """If true, it is voted for, if false, it is deleted."""
   vote(id: String!, isVoted: Boolean): Boolean!
+  createComment(input: CreateCommentInput!): CommentModel!
+  updateComment(input: UpdateCommentInput!): CommentModel!
+  deleteComment(input: DeleteCommentInput!): Boolean!
 }
 
 input CreateUserInput {
@@ -84,4 +98,30 @@ input UpdatePostInput {
 
   """Post id"""
   id: String!
+}
+
+input CreateCommentInput {
+  content: String!
+  post: ID!
+  parent: ID
+}
+
+input UpdateCommentInput {
+  content: String
+  post: ID
+  parent: ID
+  id: ID!
+}
+
+input DeleteCommentInput {
+  id: ID!
+  post: ID!
+  parent: ID
+}
+
+type Subscription {
+  voteUpdated(post: String!): VoteModel!
+  commentAdded(id: String!): CommentModel!
+  commentUpdated(id: String!): CommentModel!
+  commentDeleted(id: String!): CommentModel!
 }

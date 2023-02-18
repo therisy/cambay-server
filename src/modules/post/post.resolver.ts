@@ -10,13 +10,15 @@ import { UpdatePostInput } from "@modules/post/input/update-post.input";
 import { PageValidationPipe } from "@core/pipe/page-validation.pipe";
 import { VoteService } from "@modules/vote/service/vote.service";
 import { VoteModel } from "@modules/vote/model/vote.model";
+import { CommentModel } from "@modules/comment/model/comment.model";
+import { CommentService } from "@modules/comment/service/comment.service";
 
 @Resolver(() => PostModel)
 export class PostResolver {
   constructor(
     private readonly postService: PostService,
-    private readonly voteService: VoteService
-
+    private readonly voteService: VoteService,
+    private readonly commentService: CommentService
   ) {
   }
 
@@ -31,7 +33,7 @@ export class PostResolver {
   @UseGuards(GqlThrottlerGuard)
   @Throttle(30, 60)
   async getTopPosts(@Args('page', PageValidationPipe) page: number): Promise<PostModel[]> {
-    return this.postService.getTopPosts();
+    return this.postService.getTopPosts(page);
   }
 
   @Query(() => PostModel)
@@ -44,8 +46,15 @@ export class PostResolver {
   @ResolveField()
   @UseGuards(GqlThrottlerGuard)
   @Throttle(15, 60)
-  async votes(@Parent() { id }: PostModel): Promise<VoteModel[]> {
-    return await this.voteService.getVotesByPostId(id)
+  async votes(@Parent() { id }: PostModel, @Args('page', PageValidationPipe) page: number): Promise<VoteModel[]> {
+    return await this.voteService.getVotesByPostId(id, page)
+  }
+
+  @ResolveField()
+  @UseGuards(GqlThrottlerGuard)
+  @Throttle(15, 60)
+  async comments(@Parent() { id }: PostModel, @Args('page', PageValidationPipe) page: number): Promise<CommentModel[]> {
+    return await this.commentService.getCommentsByPostId(id, page)
   }
 
   @Mutation(() => PostModel)

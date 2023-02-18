@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { VoteModel } from "@modules/vote/model/vote.model";
-import { Repository } from "typeorm";
+import typeorm_2, { Repository } from "typeorm";
 import { PostService } from "@modules/post/service/post.service";
 
 @Injectable()
@@ -12,15 +12,18 @@ export class VoteService {
   ) {
   }
 
-  async getVotesByPostId(id: string): Promise<VoteModel[]> {
+  async getVotesByPostId(id: string, page: number): Promise<VoteModel[]> {
+    const skip = (page - 1) * 15;
     return await this.voteRepository.find({
       where: {
         post: id
-      }
+      },
+      skip,
+      take: 15,
     });
   }
 
-  async vote(id, isVoted, user): Promise<boolean> {
+  async vote(id, isVoted, user) {
     const model = await this.postService.getPostById(id);
     if (!model) {
       throw new NotFoundException("Post not found");
@@ -31,9 +34,13 @@ export class VoteService {
     });
 
     if (exists) {
-      await this.voteRepository.delete({ post: id, user: user.id });
+      exists.isVoted = !exists.isVoted;
+      await exists.save();
 
-      return false;
+      return {
+        data: exists,
+        isVoted: exists.isVoted
+      }
     }
 
     const vote = this.voteRepository.create({
@@ -44,6 +51,9 @@ export class VoteService {
 
     await vote.save();
 
-    return true;
+    return {
+      data: vote,
+      isVoted: isVoted
+    }
   }
 }

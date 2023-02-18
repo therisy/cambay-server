@@ -15,23 +15,26 @@ export class PostService {
 
   async getNewPosts(page: number): Promise<PostModel[]> {
     const date = new Date(Date.now() - 1000 * 60 * 60 * 24);
-    const skip = (page - 1) * 2;
+    const skip = (page - 1) * 20;
 
     return await this.postRepository.find({
       where: {
         createdAt: MoreThan(date),
-        ready: false
+        ready: true
       },
       skip,
-      take: 2
+      take: 20
     });
   }
 
-  async getTopPosts(): Promise<PostModel[]> {
+  async getTopPosts(page: number): Promise<PostModel[]> {
+    const skip = (page - 1) * 20;
     const model = await this.postRepository.find({
       where: {
         ready: true
-      }
+      },
+      skip,
+      take: 20,
     });
 
     return model;
@@ -41,7 +44,7 @@ export class PostService {
     const model = await this.postRepository.findOne({
       where: {
         id,
-        ready: false
+        ready: true
       }
     });
 

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver } from "@nestjs/apollo";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { join } from 'path';
 import { AppResolver } from "./app.resolver";
@@ -11,12 +11,19 @@ import { PostModule } from "@modules/post/post.module";
 import { VoteModule } from "@modules/vote/vote.module";
 import { UserModule } from './modules/user/user.module';
 import { VoteModel } from "@modules/vote/model/vote.model";
+import { CommentModel } from "@modules/comment/model/comment.model";
+import { CommentModule } from "@modules/comment/comment.module";
 
 @Module({
   imports: [
-    GraphQLModule.forRoot({
+    GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/graphql.schema.gql'),
+      installSubscriptionHandlers: true,
+      subscriptions: {
+        "subscriptions-transport-ws": true,
+        "graphql-ws": true,
+      }
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -25,7 +32,7 @@ import { VoteModel } from "@modules/vote/model/vote.model";
       port: CONFIG.POSTGRES.PORT,
       username: CONFIG.POSTGRES.USER,
       password: CONFIG.POSTGRES.PASSWORD,
-      entities: [UserModel, PostModel, VoteModel],
+      entities: [UserModel, PostModel, VoteModel, CommentModel],
       synchronize: CONFIG.POSTGRES.SYNCHRONIZE === 'true',
       logging: CONFIG.POSTGRES.LOGGING === 'true',
       cache: {
@@ -39,6 +46,7 @@ import { VoteModel } from "@modules/vote/model/vote.model";
     UserModule,
     PostModule,
     VoteModule,
+    CommentModule,
   ],
   providers: [AppResolver],
 })
