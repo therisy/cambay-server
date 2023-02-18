@@ -5,7 +5,7 @@ A platform where you can share posts about Design and Software. You can get feed
 If you have your own frontend design, you can look at the gql file and prepare mock data accordingly. <br />
 If there is a wrong place or a feature you want to be added, please open an issue and specify it.
 
-# Todo List
+## Todo List
 
 - [ ] like and dislike for comments
 - [ ] images will be uploaded for posts
