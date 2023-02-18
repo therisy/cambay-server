@@ -41,7 +41,7 @@ enum SoftwareCategoryEnum {
 }
 
 enum DesignCategoryEnum {
-  COMPONENT,
+  COMPONENT = 39,
   LAYOUT,
   LAYER ,
 }
