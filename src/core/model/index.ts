@@ -38,7 +38,6 @@ export class BaseModel extends BaseEntity {
       throw new BadRequestException(err.message);
     })
 
-    console.log(saved);
     saved.createdAt = new Date(saved.createdAt);
     saved.updatedAt = new Date(saved.updatedAt);
 

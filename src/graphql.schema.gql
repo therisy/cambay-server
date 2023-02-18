@@ -23,6 +23,7 @@ type Query {
 type Mutation {
   createUser(user: CreateUserInput!): UserModel!
   login(user: LoginInput!): String!
+  updateMyPassword(password: UpdateMyPasswordInput!): String!
 }
 
 input CreateUserInput {
@@ -34,4 +35,10 @@ input CreateUserInput {
 input LoginInput {
   email: String!
   password: String!
+}
+
+input UpdateMyPasswordInput {
+  oldPassword: String!
+  newPassword: String!
+  confirmPassword: String!
 }

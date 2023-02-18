@@ -6,6 +6,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserModel } from "@modules/user/model/user.model";
 import { AppThrottlerModule } from "@diverse/throttler/throttler.module";
 import { AppJwtModule } from "@diverse/jwt/jwt.module";
+import { AppJwtService } from "@diverse/jwt/jwt.service";
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { AppJwtModule } from "@diverse/jwt/jwt.module";
     AppJwtModule,
     TypeOrmModule.forFeature([UserModel])
   ],
-  providers: [UserResolver, UserService],
+  providers: [UserResolver, UserService, AppJwtService],
 })
 export class UserModule {}
