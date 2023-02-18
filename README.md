@@ -1,9 +1,20 @@
 # What is it?
-A platform where you can share posts about Design and Software. You can get feedback on the posts you make
+A platform where you can share posts about Design and Software. You can get feedback on the posts you make. <br />
+If you have your own frontend design, you can look at the gql file and prepare mock data accordingly. <br />
+If there is a wrong place or a feature you want to be added, please open an issue and specify it.
 
-## Remaining Works
-- like and dislike for comments
-- images will be uploaded for posts
+# Remaining Works
+
+## Todo List
+
+- [ ] like and dislike for comments
+- [ ] images will be uploaded for posts
+- [ ] search posts by new, top, newest top, newest top, category
+- [ ] vote for the pictures in the post
+- [ ] saving posts
+- [ ] report a post
+
+# Setup
 
 ## Installation
 
