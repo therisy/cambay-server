@@ -27,7 +27,7 @@ export class UserService {
   ) {
   }
 
-  getUserById(id: number): Promise<UserModel> {
+  getUserById(id: string): Promise<UserModel> {
     return this.userRepository.findOne({ where: { id } });
   }
 

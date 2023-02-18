@@ -15,6 +15,6 @@ import { AppJwtService } from "@diverse/jwt/jwt.service";
     AppJwtModule,
     TypeOrmModule.forFeature([UserModel])
   ],
-  providers: [UserResolver, UserService, AppJwtService],
+  providers: [UserResolver, UserService],
 })
 export class UserModule {}

@@ -16,14 +16,40 @@ type UserModel {
 """
 scalar Timestamp
 
+type VoteModel {
+  id: ID!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+  user: ID!
+  post: ID!
+  isVoted: Boolean!
+}
+
+type PostModel {
+  id: ID!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+  name: String!
+  description: String!
+  categories: [Float!]!
+  ready: Boolean!
+  votes: [VoteModel!]!
+}
+
 type Query {
   helloWorld: String!
+  getNewPosts(page: Float!): [PostModel!]!
+  getTopPosts(page: Float!): [PostModel!]!
+  getPostById(id: String!): PostModel!
 }
 
 type Mutation {
   createUser(user: CreateUserInput!): UserModel!
   login(user: LoginInput!): String!
   updateMyPassword(password: UpdateMyPasswordInput!): String!
+  createPost(post: CreatePostInput!): PostModel!
+  updatePost(post: UpdatePostInput!): PostModel!
+  vote(id: String!, isVoted: Boolean): VoteModel!
 }
 
 input CreateUserInput {
@@ -41,4 +67,19 @@ input UpdateMyPasswordInput {
   oldPassword: String!
   newPassword: String!
   confirmPassword: String!
+}
+
+input CreatePostInput {
+  name: String!
+  description: String!
+  categories: [Float!]!
+}
+
+input UpdatePostInput {
+  name: String
+  description: String
+  categories: [Float!]
+
+  """Post id"""
+  id: String!
 }

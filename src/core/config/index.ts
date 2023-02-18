@@ -27,7 +27,9 @@ const CONFIG: IConfig = {
     HOST: process.env.POSTGRES_HOST,
     DATABASE: process.env.POSTGRES_DATABASE,
     PORT: parseInt(process.env.POSTGRES_PORT) || 5432,
-    PASSWORD: process.env.POSTGRES_PASSWORD
+    PASSWORD: process.env.POSTGRES_PASSWORD,
+    SYNCHRONIZE: process.env.POSTGRES_SYNCHRONIZE || "true",
+    LOGGING: process.env.POSTGRES_LOGGING || "true",
   }
 };
 

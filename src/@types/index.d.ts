@@ -20,6 +20,8 @@ declare global {
       DATABASE: string;
       PORT: number;
       PASSWORD: string;
+      SYNCHRONIZE: string;
+      LOGGING: string;
     }
   }
 

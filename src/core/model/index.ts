@@ -19,7 +19,7 @@ import { BeforeUpdate } from "typeorm/browser";
 export class BaseModel extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn("uuid")
-  id: number;
+  id: string;
 
   @Field(() => GraphQLTimestamp)
   @CreateDateColumn()
