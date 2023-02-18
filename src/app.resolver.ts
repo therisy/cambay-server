@@ -7,6 +7,6 @@ import {
 export class AppResolver {
   @Query(returns => String)
   async helloWorld() {
-    return "IDK API is working!"
+    return "Cambay API is working!"
   }
 }
